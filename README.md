@@ -1,4 +1,4 @@
--Games
+# JS-Games
 
 ### Simple Arcade games written in JavaScript
 

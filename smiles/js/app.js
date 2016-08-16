@@ -1,11 +1,8 @@
 (function() {
     var smilesNum = 5
       , increment = 3
+      , level = 1
       , smileSize = "60px";
-
-    var divWidth, divHeight;
-
-    var level = 1;
 
     // create the smile image
     smile = document.createElement('img');

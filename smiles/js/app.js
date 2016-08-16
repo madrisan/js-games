@@ -3,8 +3,9 @@
       , increment = 3
       , smileSize = "60px";
 
-    var divWidth = 500
-      , divHeight = 400;
+    var divWidth, divHeight;
+
+    var level = 1;
 
     // create the smile image
     smile = document.createElement('img');
@@ -30,6 +31,10 @@
         // append the two div blocks to the page body
         document.body.appendChild(iDivLeftSide);
         document.body.appendChild(iDivRightSide);
+
+        divWidth = iDivLeftSide.clientWidth;
+        divHeight = iDivLeftSide.clientHeight;
+        console.log(divWidth + " x " + divHeight);
     }
 
     // handler for mouse clicks on the extra left smile
@@ -47,21 +52,20 @@
 
         smilesNum += increment;
         drawSmiles(smilesNum);
+
         leftSide.lastChild.onclick = clickExtraSmile;
     }
 
     // this function display all the smiles in both div's
     function drawSmiles(howMany) {
         for (var i = 0; i < howMany; i++) {
-            var newSmile, cloneSmile, rand_top, rand_left;
-
-            newSmile = smile.cloneNode(true);
+            var newSmile = smile.cloneNode(true);
             newSmile.style.position = "absolute";
 
             // pick a random position
-            rand_top = Math.floor(Math.random() * divHeight);
+            var rand_top = Math.floor(Math.random() * (divHeight - 100));
             newSmile.style.top = rand_top + "px";
-            rand_left = Math.floor(Math.random() * divWidth);
+            var rand_left = Math.floor(Math.random() * (divWidth - 100));
             newSmile.style.left = rand_left + "px";
 
             leftSide.appendChild(newSmile);
@@ -69,9 +73,12 @@
 
         // clone all the smiles but the last one in the right div
         for(var i = 0; i < leftSide.childNodes.length - 1; ++i) {
-            cloneSmile = leftSide.childNodes[i].cloneNode(true);
+            var cloneSmile = leftSide.childNodes[i].cloneNode(true);
             rightSide.appendChild(cloneSmile);
         }
+
+        document.getElementById("level").innerHTML = "Level " + level;
+        level += 1;
     }
 
     // draw the play field

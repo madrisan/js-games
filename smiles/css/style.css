@@ -1,8 +1,19 @@
+h1, p {
+   font-family: Verdana, Geneva, sans-serif;
+   color: #424242;
+}
+
+#level {
+    font-size: 1.2em;
+    margin-right: 1em;
+}
+
 #leftSide, #rightSide {
     position: absolute;
     width: 600px;
     height: 500px;
 }
+
 #rightSide {
     border-left: 1px solid;
     margin-left: 600px;

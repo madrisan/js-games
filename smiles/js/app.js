@@ -1,36 +1,41 @@
 (function() {
-    // create the left div
-    var iDivLeftSide = document.createElement('div');
-    iDivLeftSide.id = 'leftSide';
-    // add an handler for mouse clicks in the left div
-    iDivLeftSide.onclick = function() {
-        console.log("click event div left");
-        alert("Game Over!");
-        iDivLeftSide.onclick = null;
-        leftSide.lastChild.onclick = null;
-    };
+    var smilesNum = 5
+      , increment = 3
+      , smileSize = "60px";
 
-    // create the right div
-    var iDivRightSide = document.createElement('div');
-    iDivRightSide.id = 'rightSide';
-
-    // apppend the two div blocks to the page body
-    document.body.appendChild(iDivLeftSide);
-    document.body.appendChild(iDivRightSide);
-
-    var smilesNum = 5;
+    var divWidth = 500
+      , divHeight = 400;
 
     // create the smile image
     smile = document.createElement('img');
     smile.id = "smile";
     smile.src = "images/smile.png";
-    smile.style.height = smile.style.width = "80px";
+    smile.style.height = smile.style.width = smileSize;
+
+    function drawPanel() {
+        // create the left div
+        var iDivLeftSide = document.createElement('div');
+        iDivLeftSide.id = 'leftSide';
+        // add an handler for mouse clicks in the left div
+        iDivLeftSide.onclick = function() {
+            iDivLeftSide.onclick = null;
+            leftSide.lastChild.onclick = null;
+            alert("Game Over!");
+        };
+
+        // create the right div
+        var iDivRightSide = document.createElement('div');
+        iDivRightSide.id = 'rightSide';
+
+        // append the two div blocks to the page body
+        document.body.appendChild(iDivLeftSide);
+        document.body.appendChild(iDivRightSide);
+    }
 
     // handler for mouse clicks on the extra left smile
-    function clickLastSmile(event) {
-        console.log("click on left last smile");
+    function clickExtraSmile(event) {
         event.stopPropagation();
-        leftSide.lastChild.removeEventListener("click", clickLastSmile);
+        leftSide.lastChild.removeEventListener("click", clickExtraSmile);
 
         // remove the previous smiles
         while (leftSide.firstChild) {
@@ -40,10 +45,9 @@
             rightSide.removeChild(rightSide.firstChild);
         }
 
-        // display 5 more smiles
-        smilesNum += 5;
+        smilesNum += increment;
         drawSmiles(smilesNum);
-        leftSide.lastChild.onclick = clickLastSmile;
+        leftSide.lastChild.onclick = clickExtraSmile;
     }
 
     // this function display all the smiles in both div's
@@ -55,9 +59,9 @@
             newSmile.style.position = "absolute";
 
             // pick a random position
-            rand_top = Math.floor(Math.random() * 400);
+            rand_top = Math.floor(Math.random() * divHeight);
             newSmile.style.top = rand_top + "px";
-            rand_left = Math.floor(Math.random() * 500);
+            rand_left = Math.floor(Math.random() * divWidth);
             newSmile.style.left = rand_left + "px";
 
             leftSide.appendChild(newSmile);
@@ -70,8 +74,12 @@
         }
     }
 
-    // display of initial "smilesNum" smiles
+    // draw the play field
+    drawPanel();
+
+    // display of the first set of smiles
     drawSmiles(smilesNum);
+
     // attach the handler to the extra smile in the left div
-    leftSide.lastChild.onclick = clickLastSmile;
+    leftSide.lastChild.onclick = clickExtraSmile;
 })();

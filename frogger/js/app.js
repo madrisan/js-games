@@ -9,6 +9,7 @@ var Canvas = function() {
     };
 };
 
+
 // Enemies our player must avoid
 var Enemy = function() {
     Canvas.call(this);
@@ -108,16 +109,20 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
+// Now we instantiate the enemies...
+var allEnemies = [],
+    enemiesNumber = 3;
+for (var i = 0; i < enemiesNumber; i++) {
+    allEnemies.push(new Enemy());
+}
+
+// ... and player objects.
+var player = new Player();
+
+// Helper function for checking if a number belongs to a given range
 Number.prototype.between = function(min, max) {
     return this > min && this < max;
 }
-
-// Now we instantiate the enemies and player objects.
-var allEnemies = [];
-for (var i = 0; i < 3; i++) {
-    allEnemies.push(new Enemy());
-}
-var player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method.

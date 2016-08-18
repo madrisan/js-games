@@ -31,14 +31,27 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += this.speed * dt;
+    this.x = Math.round(this.x + this.speed * dt);
     if (this.x > this.grid.width) {
         this.reset();
     }
 };
 
+// Handle collisions with the player
+Enemy.prototype.collision = function() {
+   var delta = 60,
+       playerPosition = player.position();
+
+   return playerPosition.x.between(this.x-delta, this.x+delta) &&
+          playerPosition.y.between(this.y-delta, this.y+delta);
+};
+
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
+    if (this.collision()) {
+        player.reset();
+        return;
+    }
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -50,15 +63,15 @@ Enemy.prototype.getRandomInt = function(min, max) {
 
 var Player = function() {
     Canvas.call(this);
-
-    this.row = 5;
-    this.col = 2;
-
-    this.x = this.col * this.offset.x;
-    this.y = this.row * this.offset.y - 10;
-
     this.sprite = 'images/char-boy.png';
+    this.reset();
 };
+
+// (Re)Initialize the position of the player
+Player.prototype.reset = function(row, col) {
+    this.row = row || 5;
+    this.col = col || 2;
+}
 
 // Update the player's position, required method for game
 Player.prototype.update = function() {
@@ -66,9 +79,15 @@ Player.prototype.update = function() {
     this.y = this.row * this.offset.y - 10;
 };
 
+// Draw the player on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+// Return the position of the player
+Player.prototype.position = function() {
+    return { x: this.x, y: this.y }
+}
 
 Player.prototype.handleInput = function(key) {
     switch(key) {
@@ -88,6 +107,10 @@ Player.prototype.handleInput = function(key) {
             return
     }
 };
+
+Number.prototype.between = function(min, max) {
+    return this > min && this < max;
+}
 
 // Now we instantiate the enemies and player objects.
 var allEnemies = [];

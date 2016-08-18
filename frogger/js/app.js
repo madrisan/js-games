@@ -9,7 +9,7 @@ var GameBoard = function() {
         height: ctx.canvas.height
     };
 
-    this.playerDefaultPosition = {row: 5, col: 2};
+    this.playerDefaultPosition = { row: 5, col: 2 };
 };
 
 
@@ -73,8 +73,8 @@ var Player = function() {
 
 // (Re)Initialize the position of the player
 Player.prototype.reset = function(row, col) {
-    this.row = row || this.playerDefaultPosition.x;
-    this.col = col || this.playerDefaultPosition.y;
+    this.row = row || this.playerDefaultPosition.row;
+    this.col = col || this.playerDefaultPosition.col;
 }
 
 // Update the player's position, required method for game

@@ -1,4 +1,5 @@
-var Canvas = function() {
+// GameBoard container for enemies and player
+var GameBoard = function() {
     // see engine.js
     this.offset = { x: 101, y: 83 };
     this.grid = {
@@ -7,12 +8,14 @@ var Canvas = function() {
         width: ctx.canvas.width,
         height: ctx.canvas.height
     };
+
+    this.playerDefaultPosition = {row: 5, col: 2};
 };
 
 
 // Enemies our player must avoid
 var Enemy = function() {
-    Canvas.call(this);
+    GameBoard.call(this);
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
@@ -63,15 +66,15 @@ Enemy.prototype.getRandomInt = function(min, max) {
 
 
 var Player = function() {
-    Canvas.call(this);
+    GameBoard.call(this);
     this.sprite = 'images/char-boy.png';
     this.reset();
 };
 
 // (Re)Initialize the position of the player
 Player.prototype.reset = function(row, col) {
-    this.row = row || 5;
-    this.col = col || 2;
+    this.row = row || this.playerDefaultPosition.x;
+    this.col = col || this.playerDefaultPosition.y;
 }
 
 // Update the player's position, required method for game
@@ -111,8 +114,8 @@ Player.prototype.handleInput = function(key) {
 
 // Now we instantiate the enemies...
 var allEnemies = [],
-    enemiesNumber = 3;
-for (var i = 0; i < enemiesNumber; i++) {
+    enemies = 3;
+for (var i = 0; i < enemies; i++) {
     allEnemies.push(new Enemy());
 }
 

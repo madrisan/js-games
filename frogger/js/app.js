@@ -67,7 +67,16 @@ Enemy.prototype.getRandomInt = function(min, max) {
 
 var Player = function() {
     GameBoard.call(this);
-    this.sprite = 'images/char-boy.png';
+    this.sprites = [
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
+    ],
+    this.spriteIdMax = this.sprites.length;
+    this.spriteId = 0;
+    this.sprite = this.sprites[this.spriteId];
     this.reset();
 };
 
@@ -80,7 +89,7 @@ Player.prototype.reset = function(row, col) {
 // Update the player's position, required method for game
 Player.prototype.update = function() {
     this.x = this.col * this.offset.x;
-    this.y = this.row * this.offset.y - 10;
+    this.y = this.row * this.offset.y;
 };
 
 // Draw the player on the screen, required method for game
@@ -98,6 +107,12 @@ Player.prototype.position = function() {
 
 Player.prototype.handleInput = function(key) {
     switch(key) {
+        case 'ctrl':
+            console.log("this.spriteId = " + this.spriteId + " < " + this.spriteIdMax);
+            this.spriteId = (this.spriteId + 1) % this.spriteIdMax;
+            console.log("this.spriteId = " + this.spriteId);
+            this.sprite = this.sprites[this.spriteId];
+            break;
         case 'left':
             this.col = Math.max(0, this.col-1);
             break;
@@ -130,15 +145,23 @@ Number.prototype.between = function(min, max) {
     return this > min && this < max;
 }
 
+//document.addEventListener('click', function(e) {
+//    var x = event.pageX - ctx.canvas.offsetLeft,
+//        y = event.pageY - ctx.canvas.offsetTop;
+//
+//   player.onclick(x, y);
+//}, false);
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
+        17: 'ctrl',
         37: 'left',
         38: 'up',
         39: 'right',
         40: 'down'
     };
-
+    //console.log(e.keyCode);
     player.handleInput(allowedKeys[e.keyCode]);
 });

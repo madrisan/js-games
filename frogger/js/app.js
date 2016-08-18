@@ -43,11 +43,11 @@ Enemy.prototype.update = function(dt) {
 
 // Handle collisions with the player
 Enemy.prototype.collision = function() {
-   var delta = 60,
-       playerPosition = player.position();
+    var delta = 50,
+        playerPosition = player.position();
 
-   return playerPosition.x.between(this.x-delta, this.x+delta) &&
-          playerPosition.y.between(this.y-delta, this.y+delta);
+    return playerPosition.x.between(this.x-delta, this.x+delta) &&
+           playerPosition.y.between(this.y-delta, this.y+delta);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -73,8 +73,8 @@ var Player = function() {
 
 // (Re)Initialize the position of the player
 Player.prototype.reset = function(row, col) {
-    this.row = row || this.playerDefaultPosition.row;
     this.col = col || this.playerDefaultPosition.col;
+    this.row = row || this.playerDefaultPosition.row;
 }
 
 // Update the player's position, required method for game
@@ -86,6 +86,9 @@ Player.prototype.update = function() {
 // Draw the player on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (this.row === 0) {
+        this.reset();
+    }
 };
 
 // Return the position of the player

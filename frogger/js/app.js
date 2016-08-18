@@ -1,8 +1,17 @@
+var Canvas = function() {
+    // see engine.js
+    this.offset = { x: 101, y: 83 };
+    this.grid = {
+        rows: 6,
+        cols: 5,
+        width: ctx.canvas.width,
+        height: ctx.canvas.height
+    };
+};
+
 // Enemies our player must avoid
 var Enemy = function() {
-    this.canvasWidth = ctx.canvas.width;
-    this.canvasHeight = ctx.canvas.height;
-
+    Canvas.call(this);
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
@@ -11,11 +20,8 @@ var Enemy = function() {
 
 // Reset the enemy's position and speed
 Enemy.prototype.reset = function() {
-    // FIXME: see engine.js
-    this.yOffset = 83;
-
     this.x = -100;
-    this.y = this.getRandomInt(1, 3) * this.yOffset - 20;
+    this.y = this.getRandomInt(1, 3) * this.offset.y - 20;
     this.speed = 100 * this.getRandomInt(1, 4);
 }
 
@@ -26,7 +32,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
-    if (this.x > this.canvasWidth) {
+    if (this.x > this.grid.width) {
         this.reset();
     }
 };
@@ -43,25 +49,21 @@ Enemy.prototype.getRandomInt = function(min, max) {
 
 
 var Player = function() {
-    // FIXME: see engine.js
-    this.canvasRows = 6;
-    this.canvasCols = 5;
-    this.xOffset = 101;
-    this.yOffset = 83;
+    Canvas.call(this);
 
     this.row = 5;
     this.col = 2;
 
-    this.x = this.col * this.xOffset;
-    this.y = this.row * this.yOffset - 10;
+    this.x = this.col * this.offset.x;
+    this.y = this.row * this.offset.y - 10;
 
     this.sprite = 'images/char-boy.png';
 };
 
 // Update the player's position, required method for game
 Player.prototype.update = function() {
-    this.x = this.col * this.xOffset;
-    this.y = this.row * this.yOffset - 10;
+    this.x = this.col * this.offset.x;
+    this.y = this.row * this.offset.y - 10;
 };
 
 Player.prototype.render = function() {
@@ -77,10 +79,10 @@ Player.prototype.handleInput = function(key) {
             this.row = Math.max(0, this.row-1);
             break;
         case 'right':
-            this.col = Math.min(this.canvasCols-1, this.col+1);
+            this.col = Math.min(this.grid.cols-1, this.col+1);
             break;
         case 'down':
-            this.row = Math.min(this.canvasRows-1, this.row+1);
+            this.row = Math.min(this.grid.rows-1, this.row+1);
             break;
         default:
             return

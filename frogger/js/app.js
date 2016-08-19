@@ -108,9 +108,7 @@ Player.prototype.position = function() {
 Player.prototype.handleInput = function(key) {
     switch(key) {
         case 'ctrl':
-            console.log("this.spriteId = " + this.spriteId + " < " + this.spriteIdMax);
             this.spriteId = (this.spriteId + 1) % this.spriteIdMax;
-            console.log("this.spriteId = " + this.spriteId);
             this.sprite = this.sprites[this.spriteId];
             break;
         case 'left':

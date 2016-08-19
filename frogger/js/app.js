@@ -40,9 +40,9 @@ var Enemy = function() {
 };
 
 // Reset the enemy's position and speed
-Enemy.prototype.reset = function() {
-    this.x = -100;
-    this.y = this.getRandomInt(1, 3) * this.offset.y - 20;
+Enemy.prototype.reset = function(x, y) {
+    this.x = x || -this.getRandomInt(1, 3) * 50 - 50;
+    this.y = y || this.getRandomInt(1, 3) * this.offset.y - 20;
     this.speed = 100 * this.getRandomInt(1, 4);
 }
 

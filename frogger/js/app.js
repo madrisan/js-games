@@ -27,7 +27,6 @@ GameScore.prototype.decrement = function(delta) {
 };
 
 GameScore.prototype.render = function(x, y) {
-    //console.log("draw(): " + this.counter);
     ctx.fillText("score: " + this.counter.toString(), x, y);
 }
 

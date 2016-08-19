@@ -12,6 +12,24 @@ var GameBoard = function() {
     this.playerDefaultPosition = { row: 5, col: 2 };
 };
 
+// Game score
+var GameScore = function() {
+    this.counter = 0;
+    ctx.font = "normal normal 10pt 'Rock Salt'";
+};
+
+GameScore.prototype.increment = function(delta) {
+    this.counter += delta || 1;
+};
+
+GameScore.prototype.decrement = function(delta) {
+    this.counter = Math.max(this.counter - (delta || 1), 0);
+};
+
+GameScore.prototype.render = function(x, y) {
+    //console.log("draw(): " + this.counter);
+    ctx.fillText("score: " + this.counter.toString(), x, y);
+}
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -54,6 +72,7 @@ Enemy.prototype.collision = function() {
 Enemy.prototype.render = function() {
     if (this.collision()) {
         player.reset();
+        score.decrement();
         return;
     }
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -97,6 +116,7 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     if (this.row === 0) {
         this.reset();
+        score.increment();
     }
 };
 
@@ -134,9 +154,9 @@ var allEnemies = [],
 for (var i = 0; i < enemies; i++) {
     allEnemies.push(new Enemy());
 }
-
-// ... and player objects.
+// ... player, and score objects.
 var player = new Player();
+var score = new GameScore();
 
 // Helper function for checking if a number belongs to a given range
 Number.prototype.between = function(min, max) {

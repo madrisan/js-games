@@ -152,6 +152,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        score.render(412, 574);
     }
 
     /* This function does nothing but it could have been a good place to
